@@ -1,5 +1,7 @@
 package com.dev.cinema.lib;
 
+import com.dev.cinema.exception.NotFoundInjectorClassException;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -20,7 +22,7 @@ public class Injector {
         try {
             classes.addAll(getClasses(mainPackageName));
         } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException("Can't get information about all classes", e);
+            throw new NotFoundInjectorClassException("Can't get information about all classes", e);
         }
     }
 
