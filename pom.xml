@@ -7,7 +7,6 @@
     <groupId>org.example</groupId>
     <artifactId>Hibernate-cinema</artifactId>
     <version>1.0-SNAPSHOT</version>
-
     <dependencies>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -49,7 +48,4 @@
             </plugin>
         </plugins>
     </reporting>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 </project>
