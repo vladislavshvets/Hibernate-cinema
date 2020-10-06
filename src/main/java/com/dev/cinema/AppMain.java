@@ -1,7 +1,16 @@
 package com.dev.cinema;
 
-public class AppMain {
-    public static void main(String[] args) {
+import com.dev.cinema.lib.Injector;
+import com.dev.cinema.model.Movie;
+import com.dev.cinema.service.MovieService;
 
+public class AppMain {
+    private static Injector injector = Injector.getInstance("com.dev.cinema");
+    private static MovieService movieService =(MovieService) injector.getInstance(MovieService.class);
+    public static void main(String[] args) {
+        Movie movie = new Movie();
+        movie.setTitle("Fast and Furious");
+        movieService.add(movie);
+        movieService.getAll().forEach(System.out::println);
     }
 }
