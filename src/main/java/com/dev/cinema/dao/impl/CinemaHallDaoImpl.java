@@ -7,6 +7,7 @@ import com.dev.cinema.model.CinemaHall;
 import com.dev.cinema.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import java.util.*;
 
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
@@ -27,7 +28,7 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Fail! Can't add cinema hall: " +cinemaHall, e);
+            throw new DataProcessingException("Fail! Can't add cinema hall: " + cinemaHall, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -38,8 +39,8 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
     @Override
     public List<CinemaHall> getAll() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            CriteriaQuery<CinemaHall> criteriaQuery = session.getCriteriaBuilder()
-                    .createQuery(CinemaHall.class);
+            CriteriaQuery<CinemaHall> criteriaQuery =
+                    session.getCriteriaBuilder().createQuery(CinemaHall.class);
             criteriaQuery.from(CinemaHall.class);
             return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {

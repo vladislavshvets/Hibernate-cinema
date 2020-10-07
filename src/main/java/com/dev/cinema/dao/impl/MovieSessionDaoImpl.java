@@ -10,6 +10,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Dao
@@ -23,8 +24,8 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
                     + " WHERE movie_id =: movieId"
                     + " AND showTime BETWEEN :startOfDay AND :endOfDay", MovieSession.class);
             query.setParameter("movieId", movieId);
-            query.setParameter("startOfDay", startOfDay);
-            query.setParameter("endOfDay", endOfDay);
+            query.setParameter("startOfDay", date.atStartOfDay());
+            query.setParameter("endOfDay", date.atTime(LocalTime.MAX));
             return query.getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Fail! Can't get available sessions: "
@@ -46,7 +47,8 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Fail! Can't add new session", e);
+            throw new DataProcessingException(
+                    "Fail! Can't add new session: " + movieSession, e);
         } finally {
             if (session != null) {
                 session.close();
