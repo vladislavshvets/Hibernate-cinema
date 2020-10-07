@@ -7,8 +7,6 @@ import com.dev.cinema.model.CinemaHall;
 import com.dev.cinema.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import java.util.*;
-
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
