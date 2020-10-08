@@ -9,7 +9,6 @@ import com.dev.cinema.service.AuthenticationService;
 import com.dev.cinema.service.CinemaHallService;
 import com.dev.cinema.service.MovieService;
 import com.dev.cinema.service.MovieSessionService;
-import javax.naming.AuthenticationException;
 import java.time.LocalDateTime;
 
 public class AppMain {
@@ -24,7 +23,7 @@ public class AppMain {
     private static AuthenticationService authenticationService =
             (AuthenticationService) injector.getInstance(AuthenticationService.class);
 
-    public static void main(String[] args) throws AuthenticationException, javax.security.sasl.AuthenticationException {
+    public static void main(String[] args) {
         Movie movie = new Movie();
         movie.setTitle("Fast and Furious");
         movieService.add(movie);
@@ -49,6 +48,5 @@ public class AppMain {
         user.setEmail("test@test.com");
         user.setPassword("test");
         authenticationService.register(user.getEmail(), user.getPassword());
-        User userTest = authenticationService.login(user.getEmail(), user.getPassword());
     }
 }
