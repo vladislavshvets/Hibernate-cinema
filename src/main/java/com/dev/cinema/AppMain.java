@@ -44,9 +44,8 @@ public class AppMain {
         movieSessionService.findAvailableSessions(1L, today.toLocalDate())
                 .forEach(System.out::println);
 
-        User user = new User();
-        user.setEmail("test@test.com");
-        user.setPassword("test");
-        authenticationService.register(user.getEmail(), user.getPassword());
+
+        User testUser =
+                authenticationService.register("test@test.com", "psd" );
     }
 }
