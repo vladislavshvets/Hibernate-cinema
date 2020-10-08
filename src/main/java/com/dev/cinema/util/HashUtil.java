@@ -1,7 +1,5 @@
 package com.dev.cinema.util;
 
-import com.dev.cinema.model.User;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;

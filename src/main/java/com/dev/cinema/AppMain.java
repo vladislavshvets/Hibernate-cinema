@@ -24,7 +24,7 @@ public class AppMain {
     private static AuthenticationService authenticationService =
             (AuthenticationService) injector.getInstance(AuthenticationService.class);
 
-    public static void main(String[] args) throws AuthenticationException {
+    public static void main(String[] args) throws AuthenticationException, javax.security.sasl.AuthenticationException {
         Movie movie = new Movie();
         movie.setTitle("Fast and Furious");
         movieService.add(movie);
@@ -42,7 +42,8 @@ public class AppMain {
         cinemaHallService.add(firstHall);
         movieSessionService.add(movieSession);
         cinemaHallService.getAll().forEach(System.out::println);
-        movieSessionService.findAvailableSessions(1L, today.toLocalDate()).forEach(System.out::println);
+        movieSessionService.findAvailableSessions(1L, today.toLocalDate())
+                .forEach(System.out::println);
 
         User user = new User();
         user.setEmail("test@test.com");

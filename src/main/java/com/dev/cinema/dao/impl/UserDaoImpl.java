@@ -8,6 +8,7 @@ import com.dev.cinema.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+
 import java.util.Optional;
 
 @Dao
@@ -37,13 +38,8 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Optional<User> findByEmail(String email) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<User> query =
-                    session.createQuery("FROM User WHERE email = :userEmail ", User.class);
-            query.setParameter("userEmail", email);
-            return Optional.of(query.getSingleResult());
-        } catch (Exception e) {
-            throw new DataProcessingException(
-                    "User couldn't found, by email: " + email + " ", e);
+            return session.createQuery("FROM User WHERE email = :userEmail ", User.class)
+                    .setParameter("userEmail", email).uniqueResultOptional();
         }
     }
 }

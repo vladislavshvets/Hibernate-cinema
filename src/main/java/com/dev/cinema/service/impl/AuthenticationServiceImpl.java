@@ -6,7 +6,7 @@ import com.dev.cinema.model.User;
 import com.dev.cinema.service.AuthenticationService;
 import com.dev.cinema.service.UserService;
 import com.dev.cinema.util.HashUtil;
-import javax.naming.AuthenticationException;
+import javax.security.sasl.AuthenticationException;
 import java.util.Optional;
 
 
@@ -33,7 +33,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         userService.add(user);
         return user;
     }
-    public static boolean passwordIsValid(String psw, User user) {
+    public boolean passwordIsValid(String psw, User user) {
         return HashUtil.hashPassword(psw, user.getSalt()).equals(user.getPassword());
     }
 }

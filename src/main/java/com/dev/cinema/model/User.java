@@ -9,7 +9,7 @@ import javax.persistence.UniqueConstraint;
 import java.util.Arrays;
 
 @Entity
-@Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames =  {"email"}))
+@Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = {"email"}))
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,8 +52,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", email='" + email + '\''
-                + ", password='" + password + '\''
-                + ", salt=" + Arrays.toString(salt) + '}';
+        return "User{" + "id=" + id + ", email='" + email + '\'' + '}';
     }
 }
