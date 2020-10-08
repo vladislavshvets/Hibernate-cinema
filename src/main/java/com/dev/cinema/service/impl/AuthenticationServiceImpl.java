@@ -1,5 +1,6 @@
 package com.dev.cinema.service.impl;
 
+import com.dev.cinema.exception.AuthenticationException;
 import com.dev.cinema.lib.Inject;
 import com.dev.cinema.lib.Service;
 import com.dev.cinema.model.User;
@@ -14,12 +15,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private UserService userService;
 
     @Override
-    public User login(String email, String password) throws ArithmeticException {
+    public User login(String email, String password) throws AuthenticationException {
         Optional<User> userFromDB = userService.findByEmail(email);
         if (userFromDB.isPresent() && isPasswordValid(password, userFromDB.get())) {
             return userFromDB.get();
         }
-        throw new ArithmeticException("Incorrect email or password");
+        throw new AuthenticationException("Incorrect email or password");
     }
 
     @Override
