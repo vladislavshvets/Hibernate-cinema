@@ -59,11 +59,7 @@ public class AppMain {
         System.out.println("Bob has logged in: "
                 + authenticationService.login(Bob.getEmail(), Bob.getPassword()));
 
-        UserService userService =
-                (UserService) injector.getInstance(UserService.class);
         User userFromDb = userService.findByEmail("bob@gmail.com").get();
-        ShoppingCartService shoppingCartService =
-                (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
         shoppingCartService.addSession(movieSession, userFromDb);
         System.out.println("Cart: " + shoppingCartService.getByUser(userFromDb));
         shoppingCartService.clear(shoppingCartService.getByUser(userFromDb));
