@@ -1,5 +1,6 @@
 package com.dev.cinema;
 
+import com.dev.cinema.exception.AuthenticationException;
 import com.dev.cinema.lib.Injector;
 import com.dev.cinema.model.CinemaHall;
 import com.dev.cinema.model.Movie;
@@ -9,6 +10,9 @@ import com.dev.cinema.service.AuthenticationService;
 import com.dev.cinema.service.CinemaHallService;
 import com.dev.cinema.service.MovieService;
 import com.dev.cinema.service.MovieSessionService;
+import com.dev.cinema.service.ShoppingCartService;
+import com.dev.cinema.service.UserService;
+
 import java.time.LocalDateTime;
 
 public class AppMain {
@@ -22,8 +26,12 @@ public class AppMain {
             (MovieSessionService) injector.getInstance(MovieSessionService.class);
     private static AuthenticationService authenticationService =
             (AuthenticationService) injector.getInstance(AuthenticationService.class);
+    private static ShoppingCartService shoppingCartService =
+            (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+    private static UserService userService =
+            (UserService) injector.getInstance(UserService.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws AuthenticationException {
         Movie movie = new Movie();
         movie.setTitle("Fast and Furious");
         movieService.add(movie);
@@ -43,9 +51,22 @@ public class AppMain {
         cinemaHallService.getAll().forEach(System.out::println);
         movieSessionService.findAvailableSessions(1L, today.toLocalDate())
                 .forEach(System.out::println);
+        User Bob = new User();
+        Bob.setEmail("bob@gmail.com");
+        Bob.setPassword("password");
+        System.out.println("Bob has been registered: "
+                + authenticationService.register(Bob.getEmail(), Bob.getPassword()));
+        System.out.println("Bob has logged in: "
+                + authenticationService.login(Bob.getEmail(), Bob.getPassword()));
 
-
-        User testUser =
-                authenticationService.register("test@test.com", "psd" );
+        UserService userService =
+                (UserService) injector.getInstance(UserService.class);
+        User userFromDb = userService.findByEmail("bob@gmail.com").get();
+        ShoppingCartService shoppingCartService =
+                (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+        shoppingCartService.addSession(movieSession, userFromDb);
+        System.out.println("Cart: " + shoppingCartService.getByUser(userFromDb));
+        shoppingCartService.clear(shoppingCartService.getByUser(userFromDb));
+        System.out.println("Empty cart: " + shoppingCartService.getByUser(userFromDb));
     }
 }
