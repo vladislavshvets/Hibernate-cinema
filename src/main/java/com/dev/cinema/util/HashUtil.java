@@ -24,7 +24,8 @@ public class HashUtil {
                 hashedPassword.append(String.format("%02x", b));
             }
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Fail! Incorrect algorithm for creating hash for password", e);
+            throw new RuntimeException("Fail! "
+                    + "Incorrect algorithm for creating hash for password", e);
         }
         return hashedPassword.toString();
     }
