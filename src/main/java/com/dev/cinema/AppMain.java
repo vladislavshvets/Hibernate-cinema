@@ -5,6 +5,7 @@ import com.dev.cinema.lib.Injector;
 import com.dev.cinema.model.CinemaHall;
 import com.dev.cinema.model.Movie;
 import com.dev.cinema.model.MovieSession;
+import com.dev.cinema.model.ShoppingCart;
 import com.dev.cinema.model.User;
 import com.dev.cinema.service.AuthenticationService;
 import com.dev.cinema.service.CinemaHallService;
@@ -12,7 +13,6 @@ import com.dev.cinema.service.MovieService;
 import com.dev.cinema.service.MovieSessionService;
 import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
-
 import java.time.LocalDateTime;
 
 public class AppMain {
@@ -31,7 +31,7 @@ public class AppMain {
     private static UserService userService =
             (UserService) injector.getInstance(UserService.class);
 
-    public static void main(String[] args) throws AuthenticationException {
+    public static void main(String[] args) {
         Movie movie = new Movie();
         movie.setTitle("Fast and Furious");
         movieService.add(movie);
@@ -54,15 +54,20 @@ public class AppMain {
         User Bob = new User();
         Bob.setEmail("bob@gmail.com");
         Bob.setPassword("password");
-        System.out.println("Bob has been registered: "
-                + authenticationService.register(Bob.getEmail(), Bob.getPassword()));
-        System.out.println("Bob has logged in: "
-                + authenticationService.login(Bob.getEmail(), Bob.getPassword()));
+        authenticationService.register(Bob.getEmail(), Bob.getPassword());
+        System.out.println("Registered user: " + Bob);
+        try {
+            System.out.println("User has logged in: "
+                    + authenticationService.login(Bob.getEmail(), Bob.getPassword()));
+        } catch (AuthenticationException e) {
+            System.out.println("Incorrect password or login" + e);
+        }
 
-        User userFromDb = userService.findByEmail("bob@gmail.com").get();
-        shoppingCartService.addSession(movieSession, userFromDb);
-        System.out.println("Cart: " + shoppingCartService.getByUser(userFromDb));
-        shoppingCartService.clear(shoppingCartService.getByUser(userFromDb));
-        System.out.println("Empty cart: " + shoppingCartService.getByUser(userFromDb));
+        Bob = userService.findByEmail("bob@gmail.com").get();
+        shoppingCartService.addSession(movieSession, Bob);
+        ShoppingCart shoppingCart = shoppingCartService.getByUser(Bob);
+        System.out.println(shoppingCart);
+        shoppingCartService.clear(shoppingCart);
+        System.out.println("Empty cart: " + shoppingCart);
     }
 }
