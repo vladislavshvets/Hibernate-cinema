@@ -51,21 +51,21 @@ public class AppMain {
         cinemaHallService.getAll().forEach(System.out::println);
         movieSessionService.findAvailableSessions(1L, today.toLocalDate())
                 .forEach(System.out::println);
-        User Bob = new User();
-        Bob.setEmail("bob@gmail.com");
-        Bob.setPassword("password");
-        authenticationService.register(Bob.getEmail(), Bob.getPassword());
-        System.out.println("Registered user: " + Bob);
+        User bob = new User();
+        bob.setEmail("bob@gmail.com");
+        bob.setPassword("password");
+        authenticationService.register(bob.getEmail(), bob.getPassword());
+        System.out.println("Registered user: " + bob);
         try {
             System.out.println("User has logged in: "
-                    + authenticationService.login(Bob.getEmail(), Bob.getPassword()));
+                    + authenticationService.login(bob.getEmail(), bob.getPassword()));
         } catch (AuthenticationException e) {
             System.out.println("Incorrect password or login" + e);
         }
 
-        Bob = userService.findByEmail("bob@gmail.com").get();
-        shoppingCartService.addSession(movieSession, Bob);
-        ShoppingCart shoppingCart = shoppingCartService.getByUser(Bob);
+        bob = userService.findByEmail("bob@gmail.com").get();
+        shoppingCartService.addSession(movieSession, bob);
+        ShoppingCart shoppingCart = shoppingCartService.getByUser(bob);
         System.out.println(shoppingCart);
         shoppingCartService.clear(shoppingCart);
         System.out.println("Empty cart: " + shoppingCart);

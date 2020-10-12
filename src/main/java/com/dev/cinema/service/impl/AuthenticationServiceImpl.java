@@ -36,6 +36,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         shoppingCartService.registerNewShCart(user);
         return user;
     }
+
     public boolean isPasswordValid(String psw, User user) {
         return HashUtil.hashPassword(psw, user.getSalt()).equals(user.getPassword());
     }
