@@ -74,5 +74,7 @@ public class AppMain {
         orderService.completeOrder(shoppingCartService.getByUser(bob).getTickets(),
                 bob);
         shoppingCartService.addSession(movieSession, bob);
+        orderService.completeOrder(shoppingCartService.getByUser(bob).getTickets(), bob);
+        shoppingCartService.addSession(movieSession, bob);
     }
 }
