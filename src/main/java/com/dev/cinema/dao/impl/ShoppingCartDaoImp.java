@@ -6,12 +6,15 @@ import com.dev.cinema.lib.Dao;
 import com.dev.cinema.model.ShoppingCart;
 import com.dev.cinema.model.User;
 import com.dev.cinema.util.HibernateUtil;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 @Dao
 public class ShoppingCartDaoImp implements ShoppingCartDao {
+    private static final Logger logger = Logger.getLogger(ShoppingCartDaoImp.class);
+
     @Override
     public ShoppingCart add(ShoppingCart shoppingCart) {
         Transaction transaction = null;
@@ -21,6 +24,7 @@ public class ShoppingCartDaoImp implements ShoppingCartDao {
             transaction = session.beginTransaction();
             session.save(shoppingCart);
             transaction.commit();
+            logger.info(shoppingCart + " added into the database");
             return shoppingCart;
         } catch (Exception e) {
             if (transaction != null) {
