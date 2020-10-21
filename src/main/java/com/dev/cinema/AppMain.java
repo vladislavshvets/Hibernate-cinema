@@ -1,7 +1,7 @@
 package com.dev.cinema;
 
+import com.dev.cinema.config.AppConfig;
 import com.dev.cinema.exception.AuthenticationException;
-import com.dev.cinema.lib.Injector;
 import com.dev.cinema.model.CinemaHall;
 import com.dev.cinema.model.Movie;
 import com.dev.cinema.model.MovieSession;
@@ -16,29 +16,19 @@ import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
 import java.time.LocalDateTime;
 import org.apache.log4j.Logger;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class AppMain {
-    private static Injector injector =
-            Injector.getInstance("com.dev.cinema");
-    private static MovieService movieService =
-            (MovieService) injector.getInstance(MovieService.class);
-    private static CinemaHallService cinemaHallService =
-            (CinemaHallService) injector.getInstance(CinemaHallService.class);
-    private static MovieSessionService movieSessionService =
-            (MovieSessionService) injector.getInstance(MovieSessionService.class);
-    private static AuthenticationService authenticationService =
-            (AuthenticationService) injector.getInstance(AuthenticationService.class);
-    private static ShoppingCartService shoppingCartService =
-            (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
-    private static UserService userService =
-            (UserService) injector.getInstance(UserService.class);
-    private static OrderService orderService =
-            (OrderService) injector.getInstance(OrderService.class);
     private static final Logger logger = Logger.getLogger(AppMain.class);
 
     public static void main(String[] args) {
+        AnnotationConfigApplicationContext context =
+                new AnnotationConfigApplicationContext(AppConfig.class);
         Movie movie = new Movie();
         movie.setTitle("Fast and Furious");
+        movie.setDescription("Race, action");
+        MovieService movieService =
+                context.getBean(MovieService.class);
         movieService.add(movie);
         movieService.getAll().forEach(logger::info);
 
@@ -51,7 +41,11 @@ public class AppMain {
         movieSession.setShowTime(today);
         movieSession.setMovie(movie);
 
+        CinemaHallService cinemaHallService =
+                context.getBean(CinemaHallService.class);
         cinemaHallService.add(firstHall);
+        MovieSessionService movieSessionService =
+                context.getBean(MovieSessionService.class);
         movieSessionService.add(movieSession);
         cinemaHallService.getAll().forEach(logger::info);
         movieSessionService.findAvailableSessions(1L, today.toLocalDate())
@@ -59,6 +53,8 @@ public class AppMain {
         User bob = new User();
         bob.setEmail("bob@gmail.com");
         bob.setPassword("password");
+        AuthenticationService authenticationService =
+                context.getBean(AuthenticationService.class);
         authenticationService.register(bob.getEmail(), bob.getPassword());
         logger.info("Registered user: " + bob);
         try {
@@ -67,12 +63,17 @@ public class AppMain {
         } catch (AuthenticationException e) {
             logger.error("Incorrect password or login" + e);
         }
-
+        UserService userService =
+                context.getBean(UserService.class);
         bob = userService.findByEmail("bob@gmail.com").get();
+        ShoppingCartService shoppingCartService =
+                context.getBean(ShoppingCartService.class);
         shoppingCartService.addSession(movieSession, bob);
         ShoppingCart shoppingCart = shoppingCartService.getByUser(bob);
         logger.info(shoppingCart);
         logger.info("Empty cart: " + shoppingCart);
+        OrderService orderService =
+                context.getBean(OrderService.class);
         orderService.completeOrder(shoppingCartService.getByUser(bob).getTickets(),
                 bob);
         shoppingCartService.addSession(movieSession, bob);
