@@ -65,7 +65,7 @@ public class AppMain {
             logger.info("User has logged in: "
                     + authenticationService.login(bob.getEmail(), bob.getPassword()));
         } catch (AuthenticationException e) {
-            logger.info("Incorrect password or login" + e);
+            logger.error("Incorrect password or login" + e);
         }
 
         bob = userService.findByEmail("bob@gmail.com").get();
