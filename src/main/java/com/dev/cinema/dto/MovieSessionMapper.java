@@ -1,7 +1,5 @@
 package com.dev.cinema.dto;
 
-import com.dev.cinema.dto.MovieSessionRequestDto;
-import com.dev.cinema.dto.MovieSessionResponseDto;
 import com.dev.cinema.model.CinemaHall;
 import com.dev.cinema.model.Movie;
 import com.dev.cinema.model.MovieSession;

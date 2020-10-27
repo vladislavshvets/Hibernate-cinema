@@ -1,6 +1,5 @@
 package com.dev.cinema.controllers;
 
-
 import com.dev.cinema.dto.order.OrderDtoMapper;
 import com.dev.cinema.dto.order.OrderResponseDto;
 import com.dev.cinema.model.Ticket;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
