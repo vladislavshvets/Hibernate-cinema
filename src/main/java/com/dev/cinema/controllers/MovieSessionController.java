@@ -4,7 +4,7 @@ import com.dev.cinema.dto.MovieSessionRequestDto;
 import com.dev.cinema.dto.MovieSessionResponseDto;
 import com.dev.cinema.model.MovieSession;
 import com.dev.cinema.service.MovieSessionService;
-import com.dev.cinema.service.mapper.MovieSessionMapper;
+import com.dev.cinema.dto.MovieSessionMapper;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;

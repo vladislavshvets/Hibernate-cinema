@@ -1,4 +1,4 @@
-package com.dev.cinema.service.mapper;
+package com.dev.cinema.dto;
 
 import com.dev.cinema.dto.MovieRequestDto;
 import com.dev.cinema.dto.MovieResponseDto;

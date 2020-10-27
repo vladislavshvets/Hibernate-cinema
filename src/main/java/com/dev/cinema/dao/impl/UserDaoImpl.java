@@ -51,4 +51,13 @@ public class UserDaoImpl implements UserDao {
                     .setParameter("userEmail", email).uniqueResultOptional();
         }
     }
+
+    @Override
+    public User findById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(User.class, id);
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't get user with id = " + id, e);
+        }
+    }
 }
