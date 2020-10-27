@@ -3,7 +3,6 @@ package com.dev.cinema.dto.order;
 import com.dev.cinema.model.Order;
 import com.dev.cinema.model.Ticket;
 import org.springframework.stereotype.Component;
-
 import java.util.stream.Collectors;
 
 @Component
