@@ -1,4 +1,4 @@
-package com.dev.cinema.dto.cinemaHall;
+package com.dev.cinema.dto.cinema;
 
 import com.dev.cinema.model.CinemaHall;
 import org.springframework.stereotype.Component;

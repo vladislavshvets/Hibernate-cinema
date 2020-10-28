@@ -1,7 +1,7 @@
-package com.dev.cinema.dto.shoppingCart;
+package com.dev.cinema.dto.shoppingcart;
 
-import lombok.Data;
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class ShoppingCartResponseDto {
