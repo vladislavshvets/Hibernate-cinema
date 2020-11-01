@@ -1,4 +1,4 @@
-package com.dev.cinema.dto;
+package com.dev.cinema.dto.user;
 
 public class UserRequestDto {
     private String email;
