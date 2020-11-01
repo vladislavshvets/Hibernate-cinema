@@ -1,6 +1,9 @@
 package com.dev.cinema.dto;
 
+import com.sun.istack.NotNull;
+
 public class MovieRequestDto {
+    @NotNull
     private String title;
     private String description;
 
