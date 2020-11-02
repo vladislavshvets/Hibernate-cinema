@@ -12,13 +12,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder authBuilder) throws Exception {
-        authBuilder.inMemoryAuthentication()
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
                 .withUser("bob@gmail.com")
-                .password(getPasswordEncoder().encode("1234"))
+                .password(getPasswordEncoder()
+                        .encode("1234"))
                 .roles("USER");
     }
 
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .anyRequest().authenticated()
