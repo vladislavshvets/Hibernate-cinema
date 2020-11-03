@@ -9,10 +9,11 @@ import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,8 +24,10 @@ public class OrderController {
     private final UserService userService;
     private final ShoppingCartService shoppingCartService;
 
-    public OrderController(OrderDtoMapper orderMapper, OrderService orderService,
-                           UserService userService, ShoppingCartService shoppingCartService) {
+    public OrderController(OrderDtoMapper orderMapper,
+                           OrderService orderService,
+                           UserService userService,
+                           ShoppingCartService shoppingCartService) {
         this.orderMapper = orderMapper;
         this.orderService = orderService;
         this.userService = userService;
@@ -32,15 +35,17 @@ public class OrderController {
     }
 
     @PostMapping("/complete")
-    public void complete(@RequestParam Long userId) {
-        User user = userService.getById(userId);
+    public void complete(Authentication authentication) {
+        String userEmail = ((UserDetails) authentication.getPrincipal()).getUsername();
+        User user = userService.findByEmail(userEmail).get();
         List<Ticket> tickets = shoppingCartService.getByUser(user).getTickets();
         orderService.completeOrder(tickets, user);
     }
 
     @GetMapping
-    public List<OrderResponseDto> getOrderByUserId(@RequestParam Long userId) {
-        return orderService.getOrderHistory(userService.getById(userId)).stream()
+    public List<OrderResponseDto> getOrder(Authentication authentication) {
+        String userEmail = ((UserDetails) authentication.getPrincipal()).getUsername();
+        return orderService.getOrderHistory(userService.findByEmail(userEmail).get()).stream()
                 .map(orderMapper::mapToDto)
                 .collect(Collectors.toList());
     }
