@@ -1,40 +1,61 @@
 package com.dev.cinema.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final UserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
+
+    public SecurityConfig(UserDetailsService userDetailsService,
+                          PasswordEncoder passwordEncoder) {
+        this.userDetailsService = userDetailsService;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("bob@gmail.com")
-                .password(getPasswordEncoder()
-                        .encode("1234"))
-                .roles("USER");
+        auth
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http
+                .authorizeRequests()
+                .antMatchers("/inject").permitAll()
+                .antMatchers(HttpMethod.GET,
+                        "/movies/**",
+                        "/movie-sessions/available/**",
+                        "/cinema-halls/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.GET,
+                        "/shopping-carts/by-user/**",
+                        "/orders/**").hasRole("USER")
+                .antMatchers(HttpMethod.POST,
+                        "/shopping-carts/movie-sessions/**",
+                        "/orders/complete/**").hasRole("USER")
+                .antMatchers(HttpMethod.GET,
+                        "/users/by-email").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,
+                        "/movies/**",
+                        "/movie-sessions/**",
+                        "/cinema-halls/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .permitAll()
+                .formLogin().permitAll()
                 .and()
                 .httpBasic()
                 .and()
                 .csrf().disable();
-    }
 
-    @Bean
-    public PasswordEncoder getPasswordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 }
