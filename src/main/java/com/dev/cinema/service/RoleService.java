@@ -1,6 +1,6 @@
 package com.dev.cinema.service;
 
-import javax.management.relation.Role;
+import com.dev.cinema.model.Role;
 
 public interface RoleService {
     void add(Role role);
