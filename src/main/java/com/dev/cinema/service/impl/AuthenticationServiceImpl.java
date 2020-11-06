@@ -5,8 +5,8 @@ import com.dev.cinema.service.AuthenticationService;
 import com.dev.cinema.service.RoleService;
 import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
-import org.springframework.stereotype.Service;
 import java.util.Set;
+import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {

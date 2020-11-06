@@ -29,6 +29,10 @@ public class Role {
         return new Role(RoleName.valueOf(roleName));
     }
 
+    public RoleName getRoleName() {
+        return roleName;
+    }
+
     public enum RoleName {
         USER,
         ADMIN

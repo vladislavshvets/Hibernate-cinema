@@ -1,10 +1,9 @@
 package com.dev.cinema.service.impl;
 
 import com.dev.cinema.dao.RoleDao;
+import com.dev.cinema.model.Role;
 import com.dev.cinema.service.RoleService;
 import org.springframework.stereotype.Service;
-import com.dev.cinema.model.Role;
-
 
 @Service
 public class RoleServiceImpl implements RoleService {

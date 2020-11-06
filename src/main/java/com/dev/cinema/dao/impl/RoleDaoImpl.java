@@ -1,13 +1,13 @@
 package com.dev.cinema.dao.impl;
 
+import com.dev.cinema.dao.RoleDao;
+import com.dev.cinema.exception.DataProcessingException;
+import com.dev.cinema.model.Role;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
-import com.dev.cinema.dao.RoleDao;
-import com.dev.cinema.exception.DataProcessingException;
-import com.dev.cinema.model.Role;
 
 @Repository
 public class RoleDaoImpl implements RoleDao {
